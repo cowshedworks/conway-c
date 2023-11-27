@@ -4,6 +4,8 @@
 #include <time.h>
 #define BOARD_SIZE 80
 #define BOARD_LIMIT BOARD_SIZE - 1
+#define SLEEP_TIME 300000
+#define SEED_VALUE 900
 #define BOARD_CHAR "*"
 #define DEAD 0
 #define ALIVE 1
@@ -161,8 +163,6 @@ void computeNextGeneration(BOARD_ARG(board), BOARD_ARG(computeBoard))
 			board[x][y] = computeCell(computeBoard[x][y], x, y, computeBoard);
 		}
 	}
-
-	copyBoard(board, computeBoard);
 }
 
 void initBoard(BOARD_ARG(board))
@@ -173,7 +173,7 @@ void initBoard(BOARD_ARG(board))
 		for (y = 0; y < BOARD_SIZE; y++)
 		{
 			r = rand() % 1000;
-			if (r > 900)
+			if (r > SEED_VALUE)
 			{
 				board[x][y] = 1;
 			}
@@ -210,7 +210,8 @@ int main()
 	{
 		printBoard(board);
 		computeNextGeneration(board, computeBoard);
-		usleep(300000);
+		copyBoard(board, computeBoard);
+		usleep(SLEEP_TIME);
 		system("clear");
 	}
 }
